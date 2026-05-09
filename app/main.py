@@ -2,7 +2,7 @@ import sys
 import os
 import subprocess
 
-BUILTIN_COMMANDS = ("echo", "exit", "type", "pwd")
+BUILTIN_COMMANDS = ("echo", "exit", "type", "pwd", "cd")
 DIRECTORIES = os.environ.get("PATH").split(os.pathsep)
 
 
@@ -15,11 +15,17 @@ def main():
             sys.exit()
 
         elif command.startswith("echo "):
-            message = command[5:]
-            sys.stdout.write(f"{message}\n")
+            sys.stdout.write(f"{command[5:]}\n")
 
-        elif command.strip() == "pwd":
+        elif command == "pwd":
             sys.stdout.write(f"{os.getcwd()}\n")
+
+        elif command.startswith("cd "):
+            directory = command[3:]
+            if os.path.exists(directory):
+                os.chdir(directory)
+            else:
+                sys.stdout.write(f"cd: {directory}: No such file or directory\n")
 
         elif command.startswith("type "):
             if command[5:] in BUILTIN_COMMANDS:
