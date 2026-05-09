@@ -5,7 +5,10 @@ def main():
     while True:
         sys.stdout.write("$ ")
         command = input().strip()
-        sys.stdout.write(f"{command}: command not found\n")
+        if command.lower() == "exit":
+            sys.exit()
+        else:
+            sys.stdout.write(f"{command}: command not found\n")
 
 
 
