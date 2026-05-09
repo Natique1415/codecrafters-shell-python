@@ -24,7 +24,7 @@ def main():
             else:
                 directories = os.environ.get("PATH").split(os.pathsep)
                 command_name = command[5:].strip()
-                file_name = command_name + ".exe"
+                file_name = command_name  # + ".exe"
 
                 for directory in directories:
                     full_path = os.path.join(directory, file_name)
