@@ -24,14 +24,17 @@ def main():
             else:
                 directories = os.environ.get("PATH").split(os.pathsep)
                 command_name = command[5:].strip()
-                file_name = command_name  # + ".exe"
+                command_exist = False
 
                 for directory in directories:
-                    full_path = os.path.join(directory, file_name)
+                    full_path = os.path.join(directory, command_name)
                     if os.path.isfile(full_path) and os.access(full_path, os.X_OK):
                         sys.stdout.write(f"{command_name} is {full_path}\n")
+                        command_exist = True
+                        break
 
-                sys.stdout.write(f"{command_name}: not found\n")
+                if command_exist == False:
+                    sys.stdout.write(f"{command_name}: not found\n")
 
         else:
             sys.stdout.write(f"{command}: command not found\n")
