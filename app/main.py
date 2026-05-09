@@ -24,6 +24,7 @@ def main():
             directory = command[3:]
             if os.path.exists(directory):
                 os.chdir(directory)
+                sys.stdout.write("\n")
             else:
                 sys.stdout.write(f"cd: {directory}: No such file or directory\n")
 
