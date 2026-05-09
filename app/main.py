@@ -3,6 +3,7 @@ import os
 import subprocess
 
 BUILTIN_COMMANDS = ("echo", "exit", "type")
+DIRECTORIES = os.environ.get("PATH").split(os.pathsep)
 
 
 def main():
@@ -16,6 +17,9 @@ def main():
         elif command.startswith("echo "):
             message = command[5:]
             sys.stdout.write(f"{message}\n")
+
+        elif command.strip() == "pwd":
+            sys.stdout.write(f"{os.getcwd()}\n")
 
         elif command.startswith("type "):
             if command[5:] in BUILTIN_COMMANDS:
@@ -40,21 +44,13 @@ def main():
                 subprocess.run([command_name] + args)
 
 
+# Checks if command exit in the PATH and does it executable permissions
 def does_command_exist(command_name: str):
-    directories = os.environ.get("PATH").split(os.pathsep)
-    # command_name = command[5:].strip()
-    # command_exist = False
-
-    for directory in directories:
+    for directory in DIRECTORIES:
         full_path = os.path.join(directory, command_name)
         if os.path.isfile(full_path) and os.access(full_path, os.X_OK):
             return full_path
-            # sys.stdout.write(f"{command_name} is {full_path}\n")
-            # command_exist = True
-            break
     return "DOES_NOT_EXIST"
-    # if command_exist == False:
-    #     sys.stdout.write(f"{command_name}: not found\n")
 
 
 if __name__ == "__main__":
