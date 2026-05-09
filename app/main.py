@@ -37,7 +37,7 @@ def main():
             if path_of_file == ("DOES_NOT_EXIST"):
                 sys.stdout.write(f"{command}: command not found\n")
             else:
-                subprocess.run([path_of_file] + args)
+                subprocess.run([command_name] + args)
 
 
 def does_command_exist(command_name: str):
