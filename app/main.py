@@ -2,7 +2,7 @@ import sys
 import os
 import subprocess
 
-BUILTIN_COMMANDS = ("echo", "exit", "type")
+BUILTIN_COMMANDS = ("echo", "exit", "type", "pwd")
 DIRECTORIES = os.environ.get("PATH").split(os.pathsep)
 
 
