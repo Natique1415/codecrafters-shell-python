@@ -3,6 +3,7 @@ import os
 import subprocess
 
 BUILTIN_COMMANDS = ("echo", "exit", "type", "pwd", "cd")
+HOME_DIRECTORY = os.path.expanduser("~")
 DIRECTORIES = os.environ.get("PATH").split(os.pathsep)
 
 
@@ -22,7 +23,9 @@ def main():
 
         elif command.startswith("cd "):
             directory = command[3:]
-            if os.path.exists(directory):
+            if directory == "~":
+                os.chdir(HOME_DIRECTORY)
+            elif os.path.exists(directory):
                 os.chdir(directory)
             else:
                 sys.stdout.write(f"cd: {directory}: No such file or directory\n")

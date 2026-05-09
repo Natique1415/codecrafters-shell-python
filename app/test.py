@@ -1,2 +1,4 @@
-command = "cd /does-not-exit"
-print(command[3:])
+import os
+
+HOME_DIRECTORY = os.getenv("HOME")
+print(HOME_DIRECTORY)
