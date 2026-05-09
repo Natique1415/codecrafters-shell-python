@@ -1,5 +1,6 @@
 import sys
 
+BUILDTIN_COMMANDS = ("echo","exit","type")
 
 def main():
     while True:
@@ -14,7 +15,7 @@ def main():
             sys.stdout.write(f"{message}\n")
 
         elif command.startswith("type "):
-            if command[5:] in ("echo","exit","type"):
+            if command[5:] in BUILDTIN_COMMANDS:
                 sys.stdout.write(f"{command[5:]} is a shell builtin\n")
             else:
                 sys.stdout.write(f"{command[5:]}: not found\n")
