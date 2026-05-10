@@ -1,5 +1,6 @@
 import sys
 import os
+import re
 import subprocess
 
 BUILTIN_COMMANDS = ("echo", "exit", "type", "pwd", "cd")
@@ -16,7 +17,16 @@ def main():
             sys.exit()
 
         elif command.startswith("echo "):
-            sys.stdout.write(f"{command[5:]}\n")
+            if "'" not in command[5:]:
+                sys.stdout.write(f"{command[5:]}\n")
+
+            # containing at least one '
+            else:
+                string_inside_quotes = re.findall(r"'([^']*)'", command[5:])
+                if string_inside_quotes == [""]:
+                    sys.stdout.write(f'{command[5:].replace("'","")}\n')
+                else:
+                    sys.stdout.write(f"{"".join(string_inside_quotes)}\n")
 
         elif command == "pwd":
             sys.stdout.write(f"{os.getcwd()}\n")
