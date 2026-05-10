@@ -25,10 +25,10 @@ def main():
             # containing at least one '
             else:
                 string_inside_quotes = re.findall(r"'([^']*)'", command[5:])
-                if string_inside_quotes == [""]:
-                    sys.stdout.write(f'{command[5:].replace("'","")}\n')
-                else:
-                    sys.stdout.write(f"{"".join(string_inside_quotes)}\n")
+                # if string_inside_quotes == [""]:
+                #     sys.stdout.write(f'{command[5:].replace("'","")}\n')
+                # else:
+                sys.stdout.write(f"{"".join(string_inside_quotes)}\n")
 
         elif command == "pwd":
             sys.stdout.write(f"{os.getcwd()}\n")
