@@ -18,7 +18,9 @@ def main():
 
         elif command.startswith("echo "):
             if "'" not in command[5:]:
-                sys.stdout.write(f"{command[5:]}\n")
+                parts = re.split(r"\s+", command[5:])
+                sys.stdout.write(f'{" ".join(parts)}\n')
+                # sys.stdout.write(f"{command[5:]}\n")
 
             # containing at least one '
             else:
