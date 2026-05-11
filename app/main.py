@@ -23,11 +23,12 @@ def main():
 
             # containing at least one ' ( so assuming it contains the other ' as well )
             else:
-                string_inside_quotes = re.findall(r"'([^']*)'", command[5:])
+                sys.stdout.write(f"{parse_word(command[5:])}\n")
+                # string_inside_quotes = re.findall(r"'([^']*)'", command[5:])
                 # if string_inside_quotes == [""]:
                 #     sys.stdout.write(f'{command[5:].replace("'","")}\n')
                 # else:
-                sys.stdout.write(f"{"".join(string_inside_quotes)}\n")
+                # sys.stdout.write(f"{"".join(string_inside_quotes)}\n")
 
         elif command == "pwd":
             sys.stdout.write(f"{os.getcwd()}\n")
@@ -71,6 +72,21 @@ def does_command_exist(command_name: str):
         if os.path.isfile(full_path) and os.access(full_path, os.X_OK):
             return full_path
     return "DOES_NOT_EXIST"
+
+
+def parse_word(phrase: str):
+    i = 0
+    word = ""
+    while i < len(phrase):
+        if phrase[i] == "'":
+            j = i + 1
+            while j < len(phrase) and phrase[j] != "'":
+                word += phrase[j]
+                j += 1
+
+        i += 1
+
+    return word
 
 
 if __name__ == "__main__":
