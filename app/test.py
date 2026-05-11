@@ -7,15 +7,9 @@ import re
 def parse_word(pharse: str):
     i = 0
     word = ""
-    while i < len(pharse):
-        if pharse[i] == "'":
-            i = i + 1
-            while pharse[i] != "'":
-                word = word + pharse[i]
-
-                i = i + 1
-    print(word)
+    while i <
 
 
 test = "echo 'hello  world'"
-print(parse_word(test[5:]))
+print(test[5])
+# print(parse_word(test[5:]))
