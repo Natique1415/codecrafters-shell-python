@@ -24,8 +24,8 @@ def main():
         elif command == "pwd":
             sys.stdout.write(f"{os.getcwd()}\n")
 
-        elif command.startswith("cd "):
-            directory = command[3:]
+        elif cmd[0] == "cd":
+            directory = cmd[1]
             if directory == "~":
                 os.chdir(HOME_DIRECTORY)
             elif os.path.exists(directory):
@@ -34,8 +34,8 @@ def main():
                 sys.stdout.write(f"cd: {directory}: No such file or directory\n")
 
         elif command.startswith("type "):
-            if command[5:] in BUILTIN_COMMANDS:
-                sys.stdout.write(f"{command[5:]} is a shell builtin\n")
+            if cmd[1] in BUILTIN_COMMANDS:
+                sys.stdout.write(f"{cmd[1]} is a shell builtin\n")
 
             # now to check each dir in PATH for the program ( making sure it has executable permission )
             else:
