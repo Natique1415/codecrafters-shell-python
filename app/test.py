@@ -1,6 +1,8 @@
 import shlex
 
-command = "echo 'world' hello"
-tokens = shlex.split(command)
+command = "type echo"
+cmd = shlex.split(command)
+command_name = cmd[1:]
 
-print(tokens)
+print(cmd)
+print(command_name)

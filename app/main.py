@@ -1,10 +1,9 @@
 import sys
 import os
-import re
 import shlex
 import subprocess
 
-BUILTIN_COMMANDS = ("echo", "exit", "type", "pwd", "cd", "cat")
+BUILTIN_COMMANDS = ("echo", "exit", "type", "pwd", "cd")
 HOME_DIRECTORY = os.path.expanduser("~")
 DIRECTORIES = os.environ.get("PATH").split(os.pathsep)
 
@@ -40,12 +39,11 @@ def main():
 
             # now to check each dir in PATH for the program ( making sure it has executable permission )
             else:
-                command_name = command[5:]
-                path_of_file = does_command_exist(command_name)
+                path_of_file = does_command_exist(cmd[1])
                 if path_of_file == ("DOES_NOT_EXIST"):
-                    sys.stdout.write(f"{command_name}: not found\n")
+                    sys.stdout.write(f"{cmd[1]}: not found\n")
                 else:
-                    sys.stdout.write(f"{command_name} is {path_of_file}\n")
+                    sys.stdout.write(f"{cmd[1]} is {path_of_file}\n")
 
         else:
             # command_name, args = command.split(" ")[0], command.split(" ")[1:]
