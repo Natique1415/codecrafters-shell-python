@@ -1,6 +1,7 @@
 import sys
 import os
 import re
+import shlex
 import subprocess
 
 BUILTIN_COMMANDS = ("echo", "exit", "type", "pwd", "cd", "cat")
@@ -13,17 +14,13 @@ def main():
         sys.stdout.write("$ ")
         command = input().strip()
 
-        if command == "exit":
+        cmd = shlex.split(command)
+
+        if cmd[0] == "exit":
             sys.exit()
 
-        elif command.startswith("echo "):
-            if "'" not in command[5:]:
-                parts = re.split(r"\s+", command[5:])
-                sys.stdout.write(f'{" ".join(parts)}\n')
-
-            # containing at least one ' ( so assuming it contains the other ' as well )
-            else:
-                sys.stdout.write(f"{parse_word(command[5:])}\n")
+        elif cmd[0] == "echo":
+            sys.stdout.write(f"{" ".join(cmd[1:])}\n")
 
         elif command == "pwd":
             sys.stdout.write(f"{os.getcwd()}\n")
@@ -51,10 +48,10 @@ def main():
                     sys.stdout.write(f"{command_name} is {path_of_file}\n")
 
         else:
-            command_name, args = command.split(" ")[0], command.split(" ")[1:]
-            path_of_file = does_command_exist(command_name)
+            # command_name, args = command.split(" ")[0], command.split(" ")[1:]
+            command_name, args = cmd[0], cmd[1:]
 
-            if path_of_file == ("DOES_NOT_EXIST"):
+            if does_command_exist(cmd[0]) == ("DOES_NOT_EXIST"):
                 sys.stdout.write(f"{command}: command not found\n")
             else:
                 subprocess.run([command_name] + args)
@@ -67,21 +64,6 @@ def does_command_exist(command_name: str):
         if os.path.isfile(full_path) and os.access(full_path, os.X_OK):
             return full_path
     return "DOES_NOT_EXIST"
-
-
-def parse_word(phrase: str):
-    i = 0
-    word = ""
-    while i < len(phrase):
-        if phrase[i] == "'":
-            j = i + 1
-            while j < len(phrase) and phrase[j] != "'":
-                word += phrase[j]
-                j += 1
-
-        i += 1
-
-    return word
 
 
 if __name__ == "__main__":
