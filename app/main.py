@@ -3,7 +3,7 @@ import os
 import re
 import subprocess
 
-BUILTIN_COMMANDS = ("echo", "exit", "type", "pwd", "cd")
+BUILTIN_COMMANDS = ("echo", "exit", "type", "pwd", "cd", "cat")
 HOME_DIRECTORY = os.path.expanduser("~")
 DIRECTORIES = os.environ.get("PATH").split(os.pathsep)
 
@@ -24,11 +24,6 @@ def main():
             # containing at least one ' ( so assuming it contains the other ' as well )
             else:
                 sys.stdout.write(f"{parse_word(command[5:])}\n")
-                # string_inside_quotes = re.findall(r"'([^']*)'", command[5:])
-                # if string_inside_quotes == [""]:
-                #     sys.stdout.write(f'{command[5:].replace("'","")}\n')
-                # else:
-                # sys.stdout.write(f"{"".join(string_inside_quotes)}\n")
 
         elif command == "pwd":
             sys.stdout.write(f"{os.getcwd()}\n")
