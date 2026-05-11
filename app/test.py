@@ -4,7 +4,18 @@ import re
 # print(t[5:].split(""))
 
 
-text = "echo hello world"
+def parse_word(pharse: str):
+    i = 0
+    word = ""
+    while i < len(pharse):
+        if pharse[i] == "'":
+            i = i + 1
+            while pharse[i] != "'":
+                word = word + pharse[i]
 
-parts = re.split(r"\s+", text[5:])
-print(" ".join(parts))
+                i = i + 1
+    print(word)
+
+
+test = "echo 'hello  world'"
+print(parse_word(test[5:]))

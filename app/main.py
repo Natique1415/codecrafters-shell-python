@@ -20,9 +20,8 @@ def main():
             if "'" not in command[5:]:
                 parts = re.split(r"\s+", command[5:])
                 sys.stdout.write(f'{" ".join(parts)}\n')
-                # sys.stdout.write(f"{command[5:]}\n")
 
-            # containing at least one '
+            # containing at least one ' ( so assuming it contains the other ' as well )
             else:
                 string_inside_quotes = re.findall(r"'([^']*)'", command[5:])
                 # if string_inside_quotes == [""]:
