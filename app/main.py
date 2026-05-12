@@ -5,7 +5,9 @@ import subprocess
 
 BUILTIN_COMMANDS = ("echo", "exit", "type", "pwd", "cd")
 HOME_DIRECTORY = os.path.expanduser("~")
-DIRECTORIES = os.environ.get("PATH").split(os.pathsep)
+DIRECTORIES = os.environ.get("PATH").split(
+    os.pathsep
+)  # pyright: ignore[reportOptionalMemberAccess]
 
 
 def main():
@@ -19,9 +21,14 @@ def main():
             sys.exit()
 
         elif cmd[0] == "echo":
-            sys.stdout.write(f"{" ".join(cmd[1:])}\n")
+            if cmd[-2] in (">", "1>"):
+                with open(cmd[-1], "w") as file:
+                    file.write(" ".join(cmd[1 : len(cmd) - 2]))
 
-        elif command == "pwd":
+            else:
+                sys.stdout.write(f"{" ".join(cmd[1:])}\n")
+
+        elif cmd[0] == "pwd":
             sys.stdout.write(f"{os.getcwd()}\n")
 
         elif cmd[0] == "cd":
@@ -33,7 +40,7 @@ def main():
             else:
                 sys.stdout.write(f"cd: {directory}: No such file or directory\n")
 
-        elif command.startswith("type "):
+        elif cmd[0] == "type":
             if cmd[1] in BUILTIN_COMMANDS:
                 sys.stdout.write(f"{cmd[1]} is a shell builtin\n")
 
@@ -44,6 +51,9 @@ def main():
                     sys.stdout.write(f"{cmd[1]}: not found\n")
                 else:
                     sys.stdout.write(f"{cmd[1]} is {path_of_file}\n")
+
+        elif cmd[0] in ("cls", "clear"):
+            os.system("cls" if os.name == "nt" else "clear")
 
         else:
             # command_name, args = command.split(" ")[0], command.split(" ")[1:]

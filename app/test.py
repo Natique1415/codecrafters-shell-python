@@ -1,8 +1,5 @@
-import shlex
+from contextlib import redirect_stdout
 
-command = "type echo"
-cmd = shlex.split(command)
-command_name = cmd[1:]
-
-print(cmd)
-print(command_name)
+with open("help.txt", "w") as f:
+    with redirect_stdout(f):
+        print("it now prints to `help.text`")
