@@ -66,7 +66,7 @@ def main():
                 sys.stdout.write(f"{command}: command not found\n")
 
             # then we check for the presence of > or 1>
-            if cmd[-2] in (">", "1>"):
+            elif cmd[-2] in (">", "1>"):
                 args = cmd[1 : len(cmd) - 2]
                 with open(cmd[-1], "w") as outfile:
                     subprocess.run([command_name] + args, stdout=outfile)
