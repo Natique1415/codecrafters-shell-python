@@ -20,6 +20,7 @@ def main():
 
         elif cmd[0] == "echo":
             args = cmd[1 : len(cmd) - 2]
+
             if cmd[-2] in (">", "1>"):
                 redirect_output(cmd[0], args, cmd[-1])
 
@@ -70,6 +71,11 @@ def main():
             elif cmd[-2] in (">", "1>"):
                 args = cmd[1 : len(cmd) - 2]
                 redirect_output(command_name, args, cmd[-1])
+
+            elif cmd[-2] in (">>", "1>>"):
+                args = cmd[1 : len(cmd) - 2]
+                with open(cmd[-1], "a") as file:
+                    subprocess.run([cmd[0]] + args, stdout=file)
 
             elif cmd[-2] == "2>":
                 args = cmd[1 : len(cmd) - 2]
