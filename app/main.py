@@ -21,9 +21,6 @@ def main():
             sys.exit()
 
         elif cmd[0] == "echo":
-            # if cmd[-2] in (">", "1>"):
-            #     with open(cmd[-1], "w") as file:
-            #         file.write(" ".join(cmd[1 : len(cmd) - 2]))
             if cmd[-2] in (">", "1>"):
                 args = cmd[1 : len(cmd) - 2]
                 with open(cmd[-1], "w") as outfile:
@@ -76,14 +73,6 @@ def main():
             else:
                 args = cmd[1:]
                 subprocess.run([command_name] + args)
-
-            # command_name, args = command.split(" ")[0], command.split(" ")[1:]
-            # command_name, args = cmd[0], cmd[1:]
-
-            # if does_command_exist(cmd[0]) == ("DOES_NOT_EXIST"):
-            #     sys.stdout.write(f"{command}: command not found\n")
-            # else:
-            #     subprocess.run([command_name] + args)
 
 
 # Checks if command exit in the PATH and does it executable permissions
