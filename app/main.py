@@ -28,6 +28,11 @@ def main():
                 with open(cmd[-1], "a") as file:
                     subprocess.run([cmd[0]] + args, stdout=file)
 
+            elif cmd[-2] == "2>>":
+                args = cmd[1 : len(cmd) - 2]
+                with open(cmd[-1], "a") as file:
+                    subprocess.run([cmd[0]] + args, stderr=file)
+
             elif cmd[-2] == "2>":
                 redirect_error(cmd[0], args, cmd[-1])
 
@@ -80,6 +85,11 @@ def main():
             elif cmd[-2] == "2>":
                 args = cmd[1 : len(cmd) - 2]
                 redirect_error(command_name, args, cmd[-1])
+
+            elif cmd[-2] == "2>>":
+                args = cmd[1 : len(cmd) - 2]
+                with open(cmd[-1], "a") as file:
+                    subprocess.run([cmd[0]] + args, stderr=file)
 
             # contains no > or 1> so run as already do
             else:
