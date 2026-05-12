@@ -5,9 +5,7 @@ import subprocess
 
 BUILTIN_COMMANDS = ("echo", "exit", "type", "pwd", "cd")
 HOME_DIRECTORY = os.path.expanduser("~")
-DIRECTORIES = os.environ.get("PATH").split(
-    os.pathsep
-)  # pyright: ignore[reportOptionalMemberAccess]
+DIRECTORIES = os.environ.get("PATH").split(os.pathsep)
 
 
 def main():
