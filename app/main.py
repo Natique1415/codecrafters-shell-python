@@ -21,9 +21,13 @@ def main():
             sys.exit()
 
         elif cmd[0] == "echo":
+            # if cmd[-2] in (">", "1>"):
+            #     with open(cmd[-1], "w") as file:
+            #         file.write(" ".join(cmd[1 : len(cmd) - 2]))
             if cmd[-2] in (">", "1>"):
-                with open(cmd[-1], "w") as file:
-                    file.write(" ".join(cmd[1 : len(cmd) - 2]))
+                args = cmd[1 : len(cmd) - 2]
+                with open(cmd[-1], "w") as outfile:
+                    subprocess.run([cmd[0]] + args, stdout=outfile)
 
             else:
                 sys.stdout.write(f"{" ".join(cmd[1:])}\n")
