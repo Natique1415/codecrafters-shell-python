@@ -56,7 +56,6 @@ def main():
             os.system("cls" if os.name == "nt" else "clear")
 
         else:
-            print(cmd)
             command_name = cmd[0]
             # before anything, check if the command exist to begin with
             if does_command_exist(cmd[0]) == ("DOES_NOT_EXIST"):
