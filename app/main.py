@@ -19,17 +19,16 @@ def main():
             sys.exit()
 
         elif cmd[0] == "echo":
+            args = cmd[1 : len(cmd) - 2]
             if cmd[-2] in (">", "1>"):
-                args = cmd[1 : len(cmd) - 2]
                 redirect_output(cmd[0], args, cmd[-1])
-                # with open(cmd[-1], "w") as outfile:
-                #     subprocess.run([cmd[0]] + args, stdout=outfile)
+
+            elif cmd[-2] in (">>", "1>>"):
+                with open(cmd[-1], "a") as file:
+                    subprocess.run([cmd[0]] + args, stdout=file)
 
             elif cmd[-2] == "2>":
-                args = cmd[1 : len(cmd) - 2]
                 redirect_error(cmd[0], args, cmd[-1])
-                # with open(cmd[-1], "w") as outfile:
-                #     subprocess.run([cmd[0]] + args, stderr=outfile)
 
             else:
                 sys.stdout.write(f"{" ".join(cmd[1:])}\n")
@@ -72,15 +71,9 @@ def main():
                 args = cmd[1 : len(cmd) - 2]
                 redirect_output(command_name, args, cmd[-1])
 
-                # with open(cmd[-1], "w") as outfile:
-                #     subprocess.run([command_name] + args, stdout=outfile)
-                # file.write(" ".join(cmd[1 : len(cmd) - 2]))
-
             elif cmd[-2] == "2>":
                 args = cmd[1 : len(cmd) - 2]
                 redirect_error(command_name, args, cmd[-1])
-                # with open(cmd[-1], "w") as outfile:
-                #     subprocess.run([command_name] + args, stderr=outfile)
 
             # contains no > or 1> so run as already do
             else:
