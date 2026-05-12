@@ -26,6 +26,11 @@ def main():
                 with open(cmd[-1], "w") as outfile:
                     subprocess.run([cmd[0]] + args, stdout=outfile)
 
+            elif cmd[-2] == "2>":
+                args = cmd[1 : len(cmd) - 2]
+                with open(cmd[-1], "w") as outfile:
+                    subprocess.run([cmd[0]] + args, stderr=outfile)
+
             else:
                 sys.stdout.write(f"{" ".join(cmd[1:])}\n")
 
@@ -62,12 +67,17 @@ def main():
             if does_command_exist(cmd[0]) == ("DOES_NOT_EXIST"):
                 sys.stdout.write(f"{command}: command not found\n")
 
-            # then we check for the presence of > or 1>
+            # then we check for the presence of > or 1>( standard output )
             elif cmd[-2] in (">", "1>"):
                 args = cmd[1 : len(cmd) - 2]
                 with open(cmd[-1], "w") as outfile:
                     subprocess.run([command_name] + args, stdout=outfile)
                     # file.write(" ".join(cmd[1 : len(cmd) - 2]))
+
+            elif cmd[-2] == "2>":
+                args = cmd[1 : len(cmd) - 2]
+                with open(cmd[-1], "w") as outfile:
+                    subprocess.run([command_name] + args, stderr=outfile)
 
             # contains no > or 1> so run as already do
             else:
