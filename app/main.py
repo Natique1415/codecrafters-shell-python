@@ -23,13 +23,15 @@ def main():
         elif cmd[0] == "echo":
             if cmd[-2] in (">", "1>"):
                 args = cmd[1 : len(cmd) - 2]
-                with open(cmd[-1], "w") as outfile:
-                    subprocess.run([cmd[0]] + args, stdout=outfile)
+                redirect_output(cmd[0], args, cmd[-1])
+                # with open(cmd[-1], "w") as outfile:
+                #     subprocess.run([cmd[0]] + args, stdout=outfile)
 
             elif cmd[-2] == "2>":
                 args = cmd[1 : len(cmd) - 2]
-                with open(cmd[-1], "w") as outfile:
-                    subprocess.run([cmd[0]] + args, stderr=outfile)
+                redirect_error(cmd[0], args, cmd[-1])
+                # with open(cmd[-1], "w") as outfile:
+                #     subprocess.run([cmd[0]] + args, stderr=outfile)
 
             else:
                 sys.stdout.write(f"{" ".join(cmd[1:])}\n")
@@ -70,14 +72,17 @@ def main():
             # then we check for the presence of > or 1>( standard output )
             elif cmd[-2] in (">", "1>"):
                 args = cmd[1 : len(cmd) - 2]
-                with open(cmd[-1], "w") as outfile:
-                    subprocess.run([command_name] + args, stdout=outfile)
-                    # file.write(" ".join(cmd[1 : len(cmd) - 2]))
+                redirect_output(command_name, args, cmd[-1])
+
+                # with open(cmd[-1], "w") as outfile:
+                #     subprocess.run([command_name] + args, stdout=outfile)
+                # file.write(" ".join(cmd[1 : len(cmd) - 2]))
 
             elif cmd[-2] == "2>":
                 args = cmd[1 : len(cmd) - 2]
-                with open(cmd[-1], "w") as outfile:
-                    subprocess.run([command_name] + args, stderr=outfile)
+                redirect_error(command_name, args, cmd[-1])
+                # with open(cmd[-1], "w") as outfile:
+                #     subprocess.run([command_name] + args, stderr=outfile)
 
             # contains no > or 1> so run as already do
             else:
@@ -92,6 +97,16 @@ def does_command_exist(command_name: str):
         if os.path.isfile(full_path) and os.access(full_path, os.X_OK):
             return full_path
     return "DOES_NOT_EXIST"
+
+
+def redirect_output(command_name: str, args: list[str], file_path: str):
+    with open(file_path, "w") as file:
+        subprocess.run([command_name] + args, stdout=file)
+
+
+def redirect_error(command_name: str, args: list[str], file_path: str):
+    with open(file_path, "w") as file:
+        subprocess.run([command_name] + args, stderr=file)
 
 
 if __name__ == "__main__":
