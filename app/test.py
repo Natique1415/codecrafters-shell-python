@@ -1,25 +1,20 @@
-import readline
+import os
 
-# Your list of autocomplete options
-OPTIONS = ("apple", "banana", "cherry", "date")
+PATH_DIRECTORY = os.environ.get("PATH").split(os.pathsep)
 
-
-def completer(text, state):
-    # Filter options that start with the input text
-    matches = [o for o in OPTIONS if o.startswith(text)]
-
-    # Return the match corresponding to the current state
-    try:
-        return matches[state]
-    except IndexError:
-        return None
+# print(os.listdir("C:\\Windows\\system32"))
 
 
-# Register the completer and bind the Tab key
-readline.set_completer(completer)
-# For macOS (libedit), use: readline.parse_and_bind("bind ^I rl_complete")
-readline.parse_and_bind("tab: complete")
+def executable_autocomplete_list(command_name: str) -> list[str]:
+    executables = []
+    for directory in PATH_DIRECTORY:
+        for filename in os.listdir(directory):
+            file_path = os.path.join(directory, filename)
 
-while True:
-    user_input = input("Enter a fruit: ")
-    print(f"You entered: {user_input}")
+            if os.path.isfile(file_path) and os.access(file_path, os.X_OK):
+                executables.append(filename)
+
+    return executables
+
+
+does_command_exist("helo")

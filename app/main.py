@@ -6,11 +6,10 @@ import readline
 
 BUILTIN_COMMANDS = ("echo", "exit", "type", "pwd", "cd")
 HOME_DIRECTORY = os.path.expanduser("~")
-DIRECTORIES = os.environ.get("PATH").split(os.pathsep)
+PATH_DIRECTORY = os.environ.get("PATH").split(os.pathsep)  # type: ignore
 
 
-# auto-complete code
-COMMANDS_TO_AUTOCOMPLETE = ("echo", "exit")
+# auto-complete code starts
 
 
 def completer(text, state):
@@ -24,8 +23,22 @@ def completer(text, state):
         return None
 
 
-readline.set_completer(completer)
-readline.parse_and_bind("tab: complete")
+def executable_autocomplete_list() -> list[str]:
+    executables = []
+    for directory in PATH_DIRECTORY:
+        for filename in os.listdir(directory):
+            file_path = os.path.join(directory, filename)
+
+            if os.path.isfile(file_path) and os.access(file_path, os.X_OK):
+                executables.append(filename)
+
+    return executables
+
+
+COMMANDS_TO_AUTOCOMPLETE = ["echo", "exit"] + executable_autocomplete_list()
+readline.set_completer(completer)  # type: ignore
+readline.parse_and_bind("tab: complete")  # type: ignore
+# auto-complete code ends
 
 
 def main():
@@ -119,8 +132,8 @@ def main():
 
 
 # Checks if command exit in the PATH and does it executable permissions
-def does_command_exist(command_name: str):
-    for directory in DIRECTORIES:
+def does_command_exist(command_name: str) -> str:
+    for directory in PATH_DIRECTORY:
         full_path = os.path.join(directory, command_name)
         if os.path.isfile(full_path) and os.access(full_path, os.X_OK):
             return full_path
