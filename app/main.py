@@ -44,8 +44,8 @@ readline.parse_and_bind("tab: complete")  # type: ignore
 
 def main():
     while True:
-        sys.stdout.write("$ ")
-        command = input().strip()
+        # sys.stdout.write("$ ")
+        command = input("$ ").strip()
 
         # cmd[0] cmd name and cmd[1:] the args
         cmd = shlex.split(command)
