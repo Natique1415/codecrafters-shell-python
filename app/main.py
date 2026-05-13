@@ -2,10 +2,30 @@ import sys
 import os
 import shlex
 import subprocess
+import readline
 
 BUILTIN_COMMANDS = ("echo", "exit", "type", "pwd", "cd")
 HOME_DIRECTORY = os.path.expanduser("~")
 DIRECTORIES = os.environ.get("PATH").split(os.pathsep)
+
+
+# auto-complete code
+COMMANDS_TO_AUTOCOMPLETE = ("echo", "exit")
+
+
+def completer(text, state):
+    # Filter options that start with the input text
+    matches = [o for o in COMMANDS_TO_AUTOCOMPLETE if o.startswith(text)]
+
+    # Return the match corresponding to the current state
+    try:
+        return matches[state] + " "
+    except IndexError:
+        return None
+
+
+readline.set_completer(completer)
+readline.parse_and_bind("tab: complete")
 
 
 def main():
@@ -13,6 +33,7 @@ def main():
         sys.stdout.write("$ ")
         command = input().strip()
 
+        # cmd[0] cmd name and cmd[1:] the args
         cmd = shlex.split(command)
 
         if cmd[0] == "exit":
