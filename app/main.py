@@ -26,11 +26,12 @@ def completer(text, state):
 def executable_autocomplete_list() -> list[str]:
     executables = []
     for directory in PATH_DIRECTORY:
-        for filename in os.listdir(directory):
-            file_path = os.path.join(directory, filename)
 
-            if os.path.isfile(file_path) and os.access(file_path, os.X_OK):
-                executables.append(filename)
+        if os.path.exists(directory):
+            for filename in os.listdir(directory):
+                file_path = os.path.join(directory, filename)
+                if os.path.isfile(file_path) and os.access(file_path, os.X_OK):
+                    executables.append(filename)
 
     return executables
 
