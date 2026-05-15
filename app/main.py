@@ -36,12 +36,23 @@ def executable_autocomplete_list() -> list[str]:
     return executables
 
 
-def file_autocomplete_list() -> list[str]:
-    files = []
-    for filename in os.listdir("."):
-        files.append(filename)
+# def file_autocomplete_list() -> list[str]:
+#     files = []
+#     for filename in os.listdir("."):
+#         files.append(filename)
 
-    return files
+
+#     return files
+def file_autocomplete_list() -> list[str]:
+    files_items = []
+    for root, dirs, files in os.walk("."):
+        for filename in files:
+            # Get the full path and convert it to a relative path
+            relative_path = os.path.relpath(os.path.join(root, filename), ".")
+            # print(f"Name: {filename} | Relative Path: {relative_path}")
+            files_items.append(relative_path)
+
+    return files_items
 
 
 COMMANDS_TO_AUTOCOMPLETE = (
