@@ -2,8 +2,11 @@ import os
 
 
 def file_autocomplete_list() -> list[str]:
+    files = []
     for filename in os.listdir("."):
-        print(filename)
+        files.append(filename)
+
+    return files
 
 
-file_autocomplete_list()
+print(file_autocomplete_list())

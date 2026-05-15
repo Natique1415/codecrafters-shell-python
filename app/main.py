@@ -39,13 +39,18 @@ def executable_autocomplete_list() -> list[str]:
 def file_autocomplete_list() -> list[str]:
     files = []
     for filename in os.listdir("."):
-        files.append(file_autocomplete_list)
+        files.append(filename)
 
     return files
 
 
 COMMANDS_TO_AUTOCOMPLETE = (
-    ["echo", "exit"] + executable_autocomplete_list() + file_autocomplete_list()
+    [
+        "echo",
+        "exit",
+    ]
+    + executable_autocomplete_list()
+    + file_autocomplete_list()
 )
 readline.set_completer(completer)  # type: ignore
 readline.parse_and_bind("tab: complete")  # type: ignore
