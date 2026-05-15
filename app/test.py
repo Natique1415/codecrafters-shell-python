@@ -40,7 +40,17 @@
 
 import os
 
+# def file_autocomplete_list() -> list[str]:
+#     files_items = []
+#     for root, dirs, files in os.walk("."):
+#         for filename in files:
+#             # Get the full path and convert it to a relative path
+#             relative_path = os.path.relpath(os.path.join(root, filename), ".")
+#             # print(f"Name: {filename} | Relative Path: {relative_path}")
+#             files_items.append(relative_path)
 
+
+#     return files_items
 def file_autocomplete_list() -> list[str]:
     files_items = []
     for root, dirs, files in os.walk("."):
@@ -49,6 +59,11 @@ def file_autocomplete_list() -> list[str]:
             relative_path = os.path.relpath(os.path.join(root, filename), ".")
             # print(f"Name: {filename} | Relative Path: {relative_path}")
             files_items.append(relative_path)
+
+    # return files_items
+    # return [item.replace("\\\\", "\\") for item in files_items]
+    # for items in files_items:
+    #     print(items)
 
     return files_items
 
