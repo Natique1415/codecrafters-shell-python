@@ -53,7 +53,7 @@ def file_autocomplete_list() -> list[str]:
             files_items.append(relative_path)
 
     # return files_items
-    return [item for item in files_items item.replace("\\\\","\\")]
+    return files_items
 
 
 COMMANDS_TO_AUTOCOMPLETE = (
