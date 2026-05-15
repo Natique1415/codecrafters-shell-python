@@ -36,7 +36,17 @@ def executable_autocomplete_list() -> list[str]:
     return executables
 
 
-COMMANDS_TO_AUTOCOMPLETE = ["echo", "exit"] + executable_autocomplete_list()
+def file_autocomplete_list() -> list[str]:
+    files = []
+    for filename in os.listdir("."):
+        files.append(file_autocomplete_list)
+
+    return files
+
+
+COMMANDS_TO_AUTOCOMPLETE = (
+    ["echo", "exit"] + executable_autocomplete_list() + file_autocomplete_list()
+)
 readline.set_completer(completer)  # type: ignore
 readline.parse_and_bind("tab: complete")  # type: ignore
 # auto-complete code ends
@@ -44,7 +54,6 @@ readline.parse_and_bind("tab: complete")  # type: ignore
 
 def main():
     while True:
-        # sys.stdout.write("$ ")
         command = input("$ ").strip()
 
         # cmd[0] cmd name and cmd[1:] the args
